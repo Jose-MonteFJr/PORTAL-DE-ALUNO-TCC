@@ -55,29 +55,39 @@ $token = csrf_token();
 
     <form method="post" autocomplete="off">
       <input type="hidden" name="csrf_token" value="<?= $token ?>">
-      <!-- NOME-->
-      <div class="mb-3">
-        <label class="form-label">Nome</label> 
-        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name) ?>" required>
-      </div>
-      <!-- EMAIL-->
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($email) ?>" required>
-      </div>
-      <!-- SENHA-->
-      <div class="mb-3">
-        <label class="form-label">Senha</label>
-        <input type="password" name="password" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($email) ?>" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($email) ?>" required>
-      </div>
+      <!-- BLOCO DADOS PESSOAIS -->
+      <fieldset>
+        <legend>DADOS PESSOAIS</legend>
+        <!-- NOME-->
+        <div class="mb-3">
+          <label class="form-label" for="Iname">NOME COMPLETO: </label> 
+          <input type="text" name="name" id="Iname" class="form-control" value="<?= htmlspecialchars($name) ?>" placeholder="Digite o nome completo" required>
+        </div>
+        <!-- CPF -->
+        <div class="mb-3">
+          <label class="form-label" for="Icpf">CPF: </label> 
+          <input type="text" name="cpf" id="Icpf" class="form-control" value="<?= htmlspecialchars($name) ?>" placeholder="Digite o CPF" required>
+        </div>
+
+      </fieldset>
+      <!-- BLOCO ENDEREÇO -->
+      <fieldset>
+        <legend>ENDEREÇO</legend>
+
+      </fieldset>
+      <!-- BLOCO CONTATO -->
+      <fieldset>
+        <legend>CONTATO</legend>
+        
+
+      </fieldset>
+      <!-- BLOCO IDENTIFICAÇÃO -->
+      <fieldset>
+        <legend>IDENTIFICAÇÃO</legend>
+        
+
+      </fieldset>
+      <!-- BOTÕES -->
       <div class="d-flex gap-2">
         <button class="btn btn-primary">Salvar</button>
         <a class="btn btn-secondary" href="index.php">Cancelar</a>
