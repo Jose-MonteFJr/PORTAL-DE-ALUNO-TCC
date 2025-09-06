@@ -1,5 +1,6 @@
 
 <?php
+// Arquivo para excluir o usuário
 require_once '../conexaoBD/db.php';
 require_once __DIR__ . '/csrf.php';
 verify_csrf_or_die();
@@ -16,7 +17,7 @@ if ($id <= 0) {
 }
 
 $pdo = getPDO();
-$stmt = $pdo->prepare("DELETE FROM users WHERE id = :id");
+$stmt = $pdo->prepare("DELETE FROM aluno WHERE id = :id");
 $stmt->execute([':id' => $id]);
 
 header('Location: index.php');

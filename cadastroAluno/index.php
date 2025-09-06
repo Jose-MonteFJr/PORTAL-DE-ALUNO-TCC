@@ -1,5 +1,6 @@
 
 <?php
+// Arquivo para visualizar os usuários
 require_once '../conexaoBD/db.php';
 require_once '../includes/header.php';
 
@@ -7,15 +8,15 @@ $pdo = getPDO();
 
 $search = trim($_GET['q'] ?? '');
 if ($search !== '') {
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE :q1 OR email LIKE :q2 ORDER BY id DESC");
+    $stmt = $pdo->prepare("SELECT * FROM aluno WHERE nome LIKE :q1 OR email LIKE :q2 ORDER BY id DESC");
     $stmt->execute([
       ':q1' => '%' . $search . '%',
       ':q2' => '%' . $search . '%'
     ]);
 } else {
-    $stmt = $pdo->query("SELECT * FROM users ORDER BY id DESC");
+    $stmt = $pdo->query("SELECT * FROM aluno ORDER BY id DESC");
 }
-$users = $stmt->fetchAll();
+$aluno = $stmt->fetchAll();
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2 class="mb-0">Usuários</h2>
@@ -49,12 +50,12 @@ $users = $stmt->fetchAll();
         </tr>
       </thead>
       <tbody>
-      <?php if (!$users): ?>
+      <?php if (!$aluno): ?>
         <tr><td colspan="5" class="text-center">Nenhum usuário encontrado.</td></tr>
-      <?php else: foreach ($users as $u): ?>
+      <?php else: foreach ($aluno as $u): ?>
         <tr>
           <td><?= (int)$u['id'] ?></td>
-          <td><?= htmlspecialchars($u['name']) ?></td>
+          <td><?= htmlspecialchars($u['nome']) ?></td>
           <td><?= htmlspecialchars($u['email']) ?></td>
           <td><?= htmlspecialchars($u['created_at']) ?></td>
           <td>

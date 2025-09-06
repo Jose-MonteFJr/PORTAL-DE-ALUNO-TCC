@@ -6,25 +6,25 @@ require_once __DIR__ . '/csrf.php';
 
 $pdo = getPDO();
 $errors = [];
-$name = '';
+$nome = '';
 $email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Verifica o token CSRF
     verify_csrf_or_die();
-    $name  = trim($_POST['name'] ?? '');
+    $nome  = trim($_POST['nome'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $pass  = $_POST['password'] ?? '';
 
-    if ($name === '')  $errors[] = 'Nome é obrigatório.';
+    if ($nome === '')  $errors[] = 'Nome é obrigatório.';
     if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email inválido.';
     if (strlen($pass) < 8) $errors[] = 'Senha deve ter pelo menos 8 caracteres.';
 
     if (!$errors) {
         $hash = password_hash($pass, PASSWORD_DEFAULT);
         try {
-            $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash) VALUES (:n, :e, :p)");
-            $stmt->execute([':n' => $name, ':e' => $email, ':p' => $hash]);
+            $stmt = $pdo->prepare("INSERT INTO aluno (nome, email, password_hash) VALUES (:n, :e, :p)");
+            $stmt->execute([':n' => $nome, ':e' => $email, ':p' => $hash]);
             header('Location: index.php');
             exit;
         } catch (PDOException $e) {
@@ -55,40 +55,42 @@ $token = csrf_token();
 
     <form method="post" autocomplete="off">
       <input type="hidden" name="csrf_token" value="<?= $token ?>">
-      <!-- BLOCO DADOS PESSOAIS -->
-      <fieldset>
+      
+      <fieldset> <!-- BLOCO DADOS PESSOAIS -->
         <legend>DADOS PESSOAIS</legend>
-        <!-- NOME-->
-        <div class="mb-3">
-          <label class="form-label" for="Iname">NOME COMPLETO: </label> 
-          <input type="text" name="name" id="Iname" class="form-control" value="<?= htmlspecialchars($name) ?>" placeholder="Digite o nome completo" required>
+        
+        <div class="mb-3"> <!-- NOME -->
+          <label class="form-label" for="iNome">NOME COMPLETO: </label> 
+          <input type="text" name="nome" id="iNome" class="form-control" value="<?= htmlspecialchars($nome) ?>" placeholder="Digite o nome completo" required>
         </div>
-        <!-- CPF -->
-        <div class="mb-3">
-          <label class="form-label" for="Icpf">CPF: </label> 
-          <input type="text" name="cpf" id="Icpf" class="form-control" value="<?= htmlspecialchars($name) ?>" placeholder="Digite o CPF" required>
-        </div>
-
+        
+       
       </fieldset>
-      <!-- BLOCO ENDEREÇO -->
-      <fieldset>
+     
+      <fieldset>  <!-- BLOCO ENDEREÇO -->
         <legend>ENDEREÇO</legend>
 
       </fieldset>
-      <!-- BLOCO CONTATO -->
-      <fieldset>
+      
+      <fieldset> <!-- BLOCO CONTATO -->
         <legend>CONTATO</legend>
         
-
+        <div class="mb-3"> <!-- EMAIL -->
+        <label class="form-label" for="iEmail">EMAIL: </label> 
+        <input type="email" name="email" id="iEmail" class="form-control" value="<?= htmlspecialchars($email) ?>" placeholder="Digite o email" required>
+      </div>
       </fieldset>
-      <!-- BLOCO IDENTIFICAÇÃO -->
-      <fieldset>
+     
+      <fieldset>  <!-- BLOCO IDENTIFICAÇÃO -->
         <legend>IDENTIFICAÇÃO</legend>
         
-
+          <div class="mb-3"> <!-- SENHA  -->
+            <label class="form-label" for="iSenha">SENHA: </label> 
+            <input type="password" name="password" id="iSenha" class="form-control" placeholder="Digite a senha" required>
+        </div>
       </fieldset>
-      <!-- BOTÕES -->
-      <div class="d-flex gap-2">
+      
+      <div class="d-flex gap-2"> <!-- BOTÕES -->
         <button class="btn btn-primary">Salvar</button>
         <a class="btn btn-secondary" href="index.php">Cancelar</a>
       </div>
